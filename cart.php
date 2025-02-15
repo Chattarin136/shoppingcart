@@ -1,21 +1,7 @@
 <?php
 session_start();
 include 'include/config.php';
-
-$productIds = [];
-foreach(($_SESSION['cart'] ?? []) as $cartId => $cartQty) {    
-    $productIds[] = $cartId;
-}
-
-$ids = 0;
-if(count($productIds) > 0) {
-    $ids = implode(', ', $productIds);
-}
-
-// product all
-$query = mysqli_query($conn, "SELECT * FROM products WHERE id IN ($ids)");
-$rows = mysqli_num_rows($query);
-
+include 'include/cart.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,9 +11,11 @@ $rows = mysqli_num_rows($query);
     <title>Cart</title>
 
     <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $base_url; ?>/assets/css/cart.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body class="bg-body-tertiary">
     <?php include 'include/menu.php'; ?>
@@ -40,62 +28,89 @@ $rows = mysqli_num_rows($query);
         <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
-        <h4>Cart</h4>
         <div class="row">
             <div class="col-12">
                 <form action="<?php echo $base_url; ?>/cart-update.php" method="post">
-                    <table class="table table-bordered border-info">
-                        <thead>
-                            <tr>
-                                <th style="width: 100px;">Image</th>
-                                <th>Product Name</th>
-                                <th style="width: 200px;">Price</th>
-                                <th style="width: 100px;">Quantity</th>
-                                <th style="width: 200px;">Total</th>
-                                <th style="width: 120px;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if($rows > 0): ?>
+                    <?php if($rows > 0): ?>
+                        <div class="row">
+                            <div class="col-md-8">
                                 <?php while($product = mysqli_fetch_assoc($query)): ?>
-                                <tr>
-                                    <td>
-                                        <?php if(!empty($product['profile_image'])): ?>
-                                            <img src="<?php echo $base_url; ?>/upload_image/<?php echo $product['profile_image']; ?>" width="100" alt="Product Image">
-                                        <?php else: ?>
-                                            <img src="<?php echo $base_url; ?>/assets/images/no-image.png" width="100" alt="Product Image">
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product['product_name']; ?>
-                                        <div>
-                                            <small class="text-muted"><?php echo nl2br($product['detail']); ?></small>
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="row g-0">
+                                            <div class="col-md-3">
+                                                <?php if(!empty($product['profile_image'])): ?>
+                                                    <img src="<?php echo $base_url; ?>/upload_image/<?php echo $product['profile_image']; ?>" 
+                                                        class="img-fluid rounded-start" alt="Product Image">
+                                                <?php else: ?>
+                                                    <img src="<?php echo $base_url; ?>/assets/images/no-image.png" 
+                                                        class="img-fluid rounded-start" alt="Product Image">
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="card-title"><?php echo $product['product_name']; ?></h5>
+                                                        <a onclick="return confirm('Are your sure you want to delete?');" 
+                                                            href="<?php echo $base_url; ?>/cart-delete.php?id=<?php echo $product['id']; ?>" 
+                                                            class="text-danger">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    <p class="card-text"><small class="text-muted"><?php echo nl2br($product['detail']); ?></small></p>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <p class="mb-0">Price: ฿<?php echo number_format($product['price'], 2); ?></p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">Qty</span>
+                                                                <input type="number" 
+                                                                    name="product[<?php echo $product['id']; ?>][quantity]" 
+                                                                    value="<?php echo $_SESSION['cart'][$product['id']]; ?>" 
+                                                                    min="1" max="99" 
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <p class="mb-0 text-end">Total: ฿<?php echo number_format($product['price'] * $_SESSION['cart'][$product['id']], 2); ?></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td><?php echo number_format($product['price'], 2); ?></td>
-                                    <td><input type="number" name="product[<?php echo $product['id']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$product['id']]; ?>" min="1" max="99" class="form-control"></td>
-                                    <td><?php echo number_format($product['price'] * $_SESSION['cart'][$product['id']], 2); ?></td>
-                                    <td>                                    
-                                        <a onclick="return confirm('Are your sure you want to delete?');" role="button" href="<?php echo $base_url; ?>/cart-delete.php?id=<?php echo $product['id']; ?>" class="btn btn-outline-danger"><i class="fa-solid fa-trash me-1"></i>Delete</a>
-                                    </td>
-                                </tr>
+                                    </div>
                                 <?php endwhile; ?>
-                                <tr>
-                                    <td colspan="6" class="text-end">
-                                        <button type="submit" class="btn btn-lg btn-success">Update Cart</button>
-                                        <button type="button" class="btn btn-lg btn-primary">Checkout Order</button>
-                                    </td>
-                                </tr>
-                            <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="text-center">
-                                    <i class="fa-solid fa-box fa-2x mt-4"></i>
-                                    <p class="">ไม่มีรายการสินค้าในตะกร้า</p>
-                                </td>
-                            </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                                <div class="text-end mt-4 mb-4">
+                                    <a href="index.php" class="text-decoration-none">
+                                        <i class="bi bi-arrow-left me-2"></i>Back to home
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Cart Summary</h5>
+                                        <hr>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-success">Update Cart</button>
+                                            <button type="button" class="btn btn-primary">Checkout Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 text-center py-5">
+                                <i class="fa-solid fa-shopping-cart fa-4x text-muted mb-4"></i>
+                                <h4 class="mb-3">Your Cart is Empty</h4>
+                                <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
+                                <a href="index.php" class="btn btn-primary">
+                                    <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>

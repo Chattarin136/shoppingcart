@@ -5,7 +5,7 @@
             <ul class="nav nav-pills justify-content-center">
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/manage-product.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Admin</a></li>
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/order.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Order</a></li>
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/index.php" class="nav-link">Product List</a></li>
+                <li class="nav-item"><a href="<?php echo $base_url; ?>/index.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Product List</a></li>
             </ul>
         </div>
         
