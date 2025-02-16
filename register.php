@@ -34,6 +34,12 @@ include 'include/register.php';
                             <?php if (!isset($error))
                                 echo "<div class='alert alert-danger'><i class='bi bi-exclamation-triangle-fill me-2'></i>$error</div>"; ?>
                             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                                <?php if (!empty($error)): ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?php echo htmlspecialchars($error); ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="mb-3">
                                     <label class="form-label">Username</label>
                                     <div class="input-group">
@@ -115,7 +121,8 @@ include 'include/register.php';
         </div>
     </div>
 
-    <script src="<?php echo $base_url; ?>/assets/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="<?php echo $base_url; ?>/assets/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -14,17 +14,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reset_token = NULL;
     $reset_expiry = NULL;
 
-    if ($password != $confirm_password) {
+    // Validate password match and length
+    if (empty($password) || empty($confirm_password)) {
+        $error = "Password and Confirm Password cannot be empty";
+    } elseif (strlen($password) < 6) {
+        $error = "Password must be at least 6 characters long";
+    } elseif ($password !== $confirm_password) {
         $error = "Password and Confirm Password do not match";
-    } else if ($stmt = $conn->prepare("SELECT id FROM users WHERE username = ?")) {
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows > 0)
-            $error = "Username already exists";
-        $stmt->close();
+    } 
+    
+    // Check if username exists
+    if (empty($error)) {
+        if ($stmt = $conn->prepare("SELECT id FROM users WHERE username = ?")) {
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $error = "Username already exists";
+            }
+            $stmt->close();
+        }
     }
 
+    // If no errors, proceed with registration
     if (empty($error)) {
         $status = (string) $status;
 
