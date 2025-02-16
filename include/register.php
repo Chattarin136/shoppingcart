@@ -47,11 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die('Prepare failed: ' . $conn->error);
         }
 
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         if (
             !$stmt->bind_param(
                 "ssssssssss",
                 $username,
-                password_hash($password, PASSWORD_DEFAULT),
+                $hashed_password,
                 $name,
                 $surname,
                 $tel,
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO permission_users (user_id, `role`) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
         $role = 'customer';
-        $stmt->bind_param("is", $user_id, $role);
+        $stmt->bind_param("ss", $user_id, $role);
         $stmt->execute();
         $stmt->close();
 

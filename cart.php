@@ -118,14 +118,18 @@ include 'include/cart.php';
 
 
     <script src="<?php echo $base_url; ?>/assets/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.querySelector('.btn-primary').addEventListener('click', function() {
-            <?php if(isset($_SESSION['username'])) : ?>
-                window.location.href = '<?php echo $base_url; ?>/checkout.php';
-            <?php else : ?>
-                alert('Please login before checkout.');
-                // window.location.href = '<?php echo $base_url; ?>/login.php';
-            <?php endif; ?>
+        $(document).ready(function() {
+            $('.btn-primary:contains("Checkout Order")').click(function(e) {
+                e.preventDefault();
+                <?php if(isset($_SESSION['username'])) : ?>
+                    window.location.href = '<?php echo $base_url; ?>/checkout.php';
+                <?php else : ?>
+                    alert('Please login before checkout.');
+                    window.location.href = '<?php echo $base_url; ?>/login.php';
+                <?php endif; ?>
+            });
         });
     </script>
 </body>

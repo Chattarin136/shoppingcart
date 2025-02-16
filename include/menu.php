@@ -21,14 +21,14 @@
                 <?php if(isset($_SESSION['username'])) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i>
-                            <span><?php echo htmlspecialchars($_SESSION['name']) . " " . htmlspecialchars($_SESSION['surname']); ?></span>
+                            <i class="fas fa-user-circle fa-lg me-1"></i>
+                            <span class="d-none d-lg-block d-xl-block"><?php echo htmlspecialchars($_SESSION['name']) . " " . htmlspecialchars($_SESSION['surname']); ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?php echo $base_url; ?>/profile.php">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="<?php echo $base_url; ?>/logout.php">
-                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                                <i class="fas fa-sign-out-alt fa-lg me-1"></i>Logout
                             </a></li>
                         </ul>
                     </li>

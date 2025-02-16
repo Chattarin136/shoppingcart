@@ -105,3 +105,145 @@ textarea.form-control {
 .table td {
     vertical-align: middle;
 }
+
+/* register security tips */
+.security-tips {
+    color: #495057;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.security-tips .tip-item {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    margin-bottom: 15px;
+}
+
+.security-tips .tip-item:hover {
+    background-color: #e9ecef;
+    transition: background-color 0.3s ease;
+}
+
+.security-tips h5 {
+    color: #0d6efd;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.security-tips ul li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.security-tips i {
+    font-size: 1.1rem;
+}
+
+.idea-logo {
+    display: block;
+
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 15px rgba(0,0,0,.04);
+    padding: 0.75rem 0;
+}
+
+.navbar-brand img {
+    transition: transform 0.2s;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: #444 !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--bs-primary) !important;
+}
+
+/* Cart Badge */
+.position-relative .badge {
+    font-size: 0.65rem;
+    transform: translate(25%, -25%);
+}
+
+/* User Avatar */
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-circle i {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        padding: 1rem 0;
+    }
+    
+    .navbar-nav {
+        padding: 0.5rem 0;
+    }
+    
+    .dropdown-menu {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+    .card {
+        width: 100%;
+    }
+    .forgot-password {
+        margin-top: 30px;
+    }
+    .idea-logo {
+        position: absolute ;
+        right: 0;
+        top: 50%;
+        z-index: -1;
+        max-width: 100%;
+        transform: translateY(-50%);
+    }
+    .security-tips {
+        display: none !important;
+    }
+}

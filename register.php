@@ -20,13 +20,48 @@ include 'include/register.php';
     <div class="login-wrapper">
         <div class="container">
             <div class="justify-content-center row w-100 mx-auto">
-                <div class="col-md-10 col-lg-4 mt-5">
-                    <div class="text-center mb-4">
-                        <img src="assets/images/lock.png" alt="Logo" class="brand-logo">
+                <!-- Security Tips Card -->
+                <div class="col-md-10 col-lg-4 mt-5 mb-5">
+                    <div class="text-center mt-1 mb-1 position-relative">
+                        <img src="assets/images/idea.png" alt="Logo" class="z-n1 mw-100 idea-logo">
+                    </div>
+                    <div class="h-100">
+                        <div class="card shadow-sm">
+                            <div class="card-body security-tips p-4">
+                                <div class="tip-item mb-4">
+                                    <h5 class="text-primary"><i class="bi bi-shield-lock me-2"></i>Password Requirements</h5>
+                                    <ul class="list-unstyled ps-4 mb-0">
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>At least 6 characters long</li>
+                                    </ul>
+                                </div>
+                                <div class="tip-item mb-4">
+                                    <h5 class="text-primary"><i class="bi bi-person-lock me-2"></i>Username Guidelines</h5>
+                                    <ul class="list-unstyled ps-4 mb-0">
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Choose a unique username</li>
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Avoid personal information</li>
+                                    </ul>
+                                </div>
+                                <div class="tip-item">
+                                    <h5 class="text-primary"><i class="bi bi-shield-check me-2"></i>Account Protection</h5>
+                                    <ul class="list-unstyled ps-4 mb-0">
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Never share your password</li>
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Use unique passwords</li>
+                                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Keep your details up to date</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Account Card -->
+                <div class="col-md-10 col-lg-4">
+                    <div class="text-center mt-4 mb-4">
+                        <img src="assets/images/insurance.png" alt="Logo" class="brand-logo">
                         <h2 class="text-dark mb-2">Create Account</h2>
                         <p class="text-muted">Please fill in your information</p>
                     </div>
-                    <div class="card">
+                    <div class="card shadow-sm"> <!-- Added shadow-sm for consistency -->
                         <div class="card-header">
                             <h3 class="text-center mb-0">Create Account</h3>
                         </div>
@@ -111,7 +146,7 @@ include 'include/register.php';
                             </form>
                         </div>
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 mb-4">
                         <a href="index.php" class="text-decoration-none">
                             <i class="bi bi-arrow-left me-2"></i>Back to Shop
                         </a>
