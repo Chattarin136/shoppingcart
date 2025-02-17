@@ -61,7 +61,7 @@ include 'include/register.php';
                         <h2 class="text-dark mb-2">Create Account</h2>
                         <p class="text-muted">Please fill in your information</p>
                     </div>
-                    <div class="card shadow-sm"> <!-- Added shadow-sm for consistency -->
+                    <div class="card shadow-sm">
                         <div class="card-header">
                             <h3 class="text-center mb-0">Create Account</h3>
                         </div>

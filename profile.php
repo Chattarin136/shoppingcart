@@ -11,8 +11,8 @@ include 'include/profile.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link href="<?php echo $base_url; ?>/assets/css/custom.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $base_url; ?>/assets/css/custom.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/solid.min.css" rel="stylesheet">
@@ -25,12 +25,15 @@ include 'include/profile.php';
     <div class="container">
         <div class="row justify-content-center min-vh-100 align-items-center">
             <div class="col-md-5">
-                <div class="text-center mb-4">
+                <div class="text-center mb-4 mt-4">
                     <img src="assets/images/profile.png" alt="Profile" class="brand-logo mb-3">
-                    <h2 class="text-dark mb-2">My Profile | Shopping Cart</h2>
+                    <h2 class="text-dark mb-2">My Profile</h2>
                     <p class="text-muted">Update your account information</p>
                 </div>
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h3 class="text-center mb-0">Update Profile</h3>
+                    </div>
                     <div class="card-body p-4">
                         <?php if (isset($_SESSION['success'])) { ?>
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
