@@ -30,8 +30,3 @@ INSERT INTO categories (name, display_name) VALUES
 ('dessert', 'Dessert'),
 ('beverage', 'Beverage'),
 ('other', 'Other');
-
--- Add foreign key constraint
-ALTER TABLE products
-ADD CONSTRAINT fk_category
-FOREIGN KEY (category) REFERENCES categories(name);
