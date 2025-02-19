@@ -152,7 +152,7 @@ include 'include/manage-product.php';
                 pageLength: 10,
                 columnDefs: [
                     { orderable: false, targets: [0, 3] },
-                    { searchable: false, targets: [0, 2, 3] }
+                    // { searchable: false, targets: [0, 2, 3] }
                 ]
             });
         });
