@@ -6,6 +6,7 @@
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/manage-product.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Admin</a></li>
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/order.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Order</a></li>
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/carousel.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Carousel</a></li>
+                <li class="nav-item"><a href="<?php echo $base_url; ?>/user.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">User</a></li>
                 <li class="nav-item"><a href="<?php echo $base_url; ?>/index.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Product List</a></li>
             </ul>
         </div>
@@ -27,6 +28,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?php echo $base_url; ?>/profile.php">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/profile.php"><i class="fas fa-dollar-sign"></i> Point <span class="badge bg-dark rounded-pill"> <?php echo number_format($_SESSION['point']); ?></span></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="<?php echo $base_url; ?>/logout.php">
                                 <i class="fas fa-sign-out-alt fa-lg me-1"></i>Logout

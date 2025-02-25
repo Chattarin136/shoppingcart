@@ -1,6 +1,9 @@
 <?php
 include 'include/session.php';
 include 'include/config.php';
+
+unset($_SESSION['promocode']);
+unset($_SESSION['promotion_text']);
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">

@@ -91,6 +91,18 @@ include 'include/cart.php';
                                     <div class="card-body">
                                         <h5 class="card-title">Cart Summary</h5>
                                         <hr>
+                                        <div class="mb-3">
+                                            <label for="promocode" class="form-label">Promotion Code</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="promocode" name="promocode" placeholder="Enter code" value="<?php echo !empty($_SESSION['promocode']) ? $_SESSION['promocode']['code'] : ''; ?>">
+                                                <button class="btn btn-outline-secondary" type="submit" id="apply-promocode">Apply</button>
+                                            </div>
+                                            <!-- promotion_text -->
+                                            <?php if(!empty($_SESSION['promocode'])): ?>
+                                                <p class="text-danger mt-2"><?php echo $_SESSION['promocode']['promotion_text']; ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                        <hr>
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-success">Update Cart</button>
                                             <button type="button" class="btn btn-primary">Checkout Order</button>

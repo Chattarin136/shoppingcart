@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     
     $sql = "SELECT u.Id user_id, u.username, u.`password`, u.`name`, u.surname, 
-        u.tel, u.email, u.address, u.`status`, p.id, p.user_id, p.role 
+        u.tel, u.email, u.address, u.`status`, u.points, p.id, p.user_id, p.role 
         FROM users u LEFT JOIN permission_users p ON p.user_id = u.Id 
         WHERE u.username = ?";
     $stmt = $conn->prepare($sql);
@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['email'] = $row['email'];
             $_SESSION['address'] = $row['address'];
             $_SESSION['role'] = $row['role'];
+            $_SESSION['point'] =  $row['points'];
             
             header("Location: index.php");
             exit();

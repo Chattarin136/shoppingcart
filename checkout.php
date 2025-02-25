@@ -93,14 +93,23 @@ $rows = mysqli_num_rows($query);
                             </div>
                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$product['id']] * $product['price'], 2); ?></span>
                         </li>
-                        <?php $grand_total += $_SESSION['cart'][$product['id']] * $product['price']; ?>                        
+                        <?php $grand_total += ($_SESSION['cart'][$product['id']] * $product['price']) ?>                        
                         <?php endwhile; ?>
+                        <?php if(!empty($_SESSION['promocode'])): ?>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0 text-danger">Promotion code</h6>
+                                <small class="text-danger"><?php echo $_SESSION['promocode']['promotion_text']; ?></small>
+                            </div>
+                            <strong class="text-danger">-฿<?php echo number_format($_SESSION['promocode']['discount_value'], 2); ?></strong>
+                        </li>
+                        <?php endif; ?>
                         <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
                             <div class="text-success">
                                 <h6 class="my-0">Grand Total</h6>
                                 <small>amount</small>
                             </div>
-                            <span class="text-success"><strong>฿<?php echo number_format($grand_total, 2); ?></strong></span>
+                            <span class="text-success"><strong>฿<?php echo number_format(!empty($_SESSION['promocode']) ? max(0, $grand_total - $_SESSION['promocode']['discount_value']) : $grand_total, 2); ?></strong></span>
                         </li>
                     </ul>
                     <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
