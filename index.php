@@ -2,6 +2,10 @@
 session_start();
 include 'include/config.php';
 include 'include/index.php';
+
+// Get active carousel items
+$carousel_query = mysqli_query($conn, "SELECT * FROM carousel WHERE status = 1 ORDER BY id DESC");
+$carousel_items = mysqli_fetch_all($carousel_query, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -37,37 +41,41 @@ include 'include/index.php';
                 <div class="card-body p-0">
                     <div id="carouselExampleIndicators" class="carousel slide rounded-4 overflow-hidden" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                                class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                                aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
+                            <?php foreach ($carousel_items as $index => $item): ?>
+                                <button type="button" 
+                                        data-bs-target="#carouselExampleIndicators" 
+                                        data-bs-slide-to="<?php echo $index; ?>"
+                                        <?php echo $index === 0 ? 'class="active" aria-current="true"' : ''; ?>
+                                        aria-label="Slide <?php echo $index + 1; ?>">
+                                </button>
+                            <?php endforeach; ?>
                         </div>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://cf.shopee.co.th/file/th-11134258-7rasb-m63nss8s7t861f_xxhdpi"
-                                    class="d-block w-100" style="height: 400px; object-fit: cover;" alt="food-4">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://cf.shopee.co.th/file/th-11134258-7rash-m5caolszc9zx3f_xxhdpi"
-                                    class="d-block w-100" style="height: 400px; object-fit: cover;" alt="food-1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://cf.shopee.co.th/file/th-11134258-7ras9-m683qi4i4ywm33_xxhdpi"
-                                    class="d-block w-100" style="height: 400px; object-fit: cover;" alt="food-6">
-                            </div>
+                            <?php foreach ($carousel_items as $index => $item): ?>
+                                <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                                    <img src="<?php echo $base_url; ?>/assets/images/carousel/<?php echo $item['image']; ?>"
+                                         class="d-block w-100" 
+                                         style="height: 400px; object-fit: cover;"
+                                         alt="<?php echo htmlspecialchars($item['title']); ?>">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5><?php echo htmlspecialchars($item['title']); ?></h5>
+                                        <p><?php echo htmlspecialchars($item['description']); ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                        <?php if (count($carousel_items) > 1): ?>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
