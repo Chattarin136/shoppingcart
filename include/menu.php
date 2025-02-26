@@ -3,11 +3,36 @@
         <!-- Center menu items -->
         <div class="flex-grow-1 text-center">
             <ul class="nav nav-pills justify-content-center">
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/manage-product.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Admin</a></li>
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/order.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Order</a></li>
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/carousel.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Carousel</a></li>
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/user.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">User</a></li>
-                <li class="nav-item"><a href="<?php echo $base_url; ?>/index.php" class="nav-link <?php echo ($_SESSION['role'] ?? '') !== 'admin' ? 'd-none' : ''; ?>">Product List</a></li>
+                <!-- Admin dropdown menu -->
+                <?php if(($_SESSION['role'] ?? '') === 'admin'): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <i class="fas fa-cog me-1"></i>Admin Panel
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="<?php echo $base_url; ?>/manage-product.php">
+                            <i class="fas fa-box me-2"></i>Manage Products</a>
+                        </li>
+                        <li><a class="dropdown-item" href="<?php echo $base_url; ?>/carousel.php">
+                            <i class="fas fa-images me-2"></i>Manage Carousel</a>
+                        </li>
+                        <li><a class="dropdown-item" href="<?php echo $base_url; ?>/manage-user.php">
+                            <i class="fas fa-users me-2"></i>Manage Users</a>
+                        </li>
+                        <li><a class="dropdown-item" href="<?php echo $base_url; ?>/promotion.php">
+                            <i class="fas fa-gift me-2"></i>Manage Promotion</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo $base_url; ?>/order.php">
+                            <i class="fas fa-shopping-bag me-2"></i>Report Orders</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base_url; ?>/index.php" class="nav-link">
+                    <i class="fas fa-store me-1"></i>Shop</a>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
         
@@ -22,9 +47,9 @@
                 </li>
                 <?php if(isset($_SESSION['username'])) : ?>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            <i class="fas fa-user-circle fa-lg me-1"></i>
-                            <span class="d-none d-lg-block d-xl-block"><?php echo htmlspecialchars($_SESSION['name']) . " " . htmlspecialchars($_SESSION['surname']); ?></span>
+                        <a class="nav-link dropdown-toggle text-dark align-items-center" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                            <!-- <span class="d-none d-lg-block d-xl-block"><?php echo htmlspecialchars($_SESSION['name']) . " " . htmlspecialchars($_SESSION['surname']); ?></span> -->
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?php echo $base_url; ?>/profile.php">Profile</a></li>

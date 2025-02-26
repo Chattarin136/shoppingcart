@@ -1,6 +1,7 @@
 <?php
 
-$query = mysqli_query($conn, "SELECT 
+// Store query result in variable to reuse
+$orders_query = "SELECT 
     o.id,
     o.fullname,
     o.email,
@@ -12,8 +13,20 @@ $query = mysqli_query($conn, "SELECT
      JOIN products p ON od2.product_id = p.id 
      WHERE od2.order_id = o.id) as product_details
 FROM orders o
-GROUP BY o.id, o.fullname, o.email, o.tel, o.address, o.grand_total");
+GROUP BY o.id, o.fullname, o.email, o.tel, o.address, o.grand_total";
+
+$query = mysqli_query($conn, $orders_query);
 $rows = mysqli_num_rows($query);
+
+// Calculate total revenue
+$total_revenue = 0;
+$orders_data = mysqli_fetch_all($query, MYSQLI_ASSOC);
+foreach ($orders_data as $order) {
+    $total_revenue += $order['grand_total'];
+}
+
+mysqli_data_seek($query, 0);
+
 $DATE_TIME = date('YmdHis');
 
 if (isset($_POST['export'])) {
@@ -57,6 +70,24 @@ GROUP BY o.id, o.fullname, o.email, o.tel, o.address, o.grand_total");
 
     fclose($output);
     exit;
+}
+
+
+$best_sellers_query = "SELECT 
+    p.product_name, 
+    SUM(od.quantity) as total_sold
+    FROM order_details od
+    JOIN products p ON od.product_id = p.Id
+    GROUP BY p.Id, p.product_name
+    ORDER BY total_sold DESC
+    LIMIT 5";
+$best_sellers_result = mysqli_query($conn, $best_sellers_query);
+
+$labels = [];
+$data = [];
+while ($row = mysqli_fetch_assoc($best_sellers_result)) {
+    $labels[] = $row['product_name'];
+    $data[] = $row['total_sold'];
 }
 
 ?>

@@ -207,6 +207,21 @@ textarea.form-control {
     background-color: #f8f9fa;
 }
 
+.card {
+    border-radius: 0.5rem;
+    border: none;
+}
+.card-header {
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+canvas {
+    min-height: 300px;
+}
+.table-responsive {
+    min-height: 300px;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 991.98px) {
     .navbar-collapse {

@@ -30,6 +30,49 @@ include 'include/order.php';
             <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
+        <div class="row mb-4">
+            <!-- Best Sellers Chart -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Best Selling Products
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="bestSellersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Summary -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-shopping-cart me-2"></i>Orders Summary
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>Total Orders:</td>
+                                        <td class="text-end"><?php echo $rows; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Revenue:</td>
+                                        <td class="text-end">฿<?php echo number_format($total_revenue, 2); ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h4>Order</h4>
         <div class="mb-4">
             <form method="post">
@@ -55,25 +98,25 @@ include 'include/order.php';
                     </thead>
                     <tbody>
                         <?php if ($rows > 0): ?>
-                            <?php while ($product = mysqli_fetch_assoc($query)): ?>
+                            <?php foreach ($orders_data as $product): ?>
                                 <tr>
-                                    <td><?php echo $product['id']; ?></td>
+                                    <td><?php echo htmlspecialchars($product['id']); ?></td>
                                     <td><?php echo $product['product_details']; ?></td>
-                                    <td><?php echo $product['fullname']; ?></td>
-                                    <td><?php echo $product['email']; ?></td>
-                                    <td><?php echo $product['tel']; ?></td>
+                                    <td><?php echo htmlspecialchars($product['fullname']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['tel']); ?></td>
                                     <td>฿<?php echo number_format($product['grand_total'], 2); ?></td>
-                                    <td><?php echo $product['address']; ?></td>
+                                    <td><?php echo htmlspecialchars($product['address']); ?></td>
                                     <td class="text-center">
-                                        <a href="order_detail.php?id=<?php echo $product['id']; ?>">
+                                        <a href="order_detail.php?id=<?php echo htmlspecialchars($product['id']); ?>">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </td>
                                 </tr>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="8" class="text-center text-danger">ไม่มีรายการคำสั่งซื้อสินค้า</td>
+                                <td colspan="8" class="text-center text-danger">No orders found</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -88,7 +131,7 @@ include 'include/order.php';
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap5.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function () {
             $('#orderTable').DataTable({
@@ -99,6 +142,39 @@ include 'include/order.php';
                     { orderable: false, targets: -1 }
                 ]
             });
+        });
+
+        // Best Sellers Chart
+        const ctx = $('#bestSellersChart')[0].getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($labels); ?>,
+                datasets: [{
+                    label: 'Units Sold',
+                    data: <?php echo json_encode($data); ?>,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
         });
     </script>
 </body>

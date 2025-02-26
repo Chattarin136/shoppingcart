@@ -1,9 +1,7 @@
 <?php
 include 'include/session-admin.php';
 include 'include/config.php';
-
-$query = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
-$rows = mysqli_num_rows($query);
+include 'include/manage-user.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +9,7 @@ $rows = mysqli_num_rows($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Product</title>
+    <title>Manage Users</title>
 
     <link href="<?php echo $base_url; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/assets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
@@ -25,28 +23,37 @@ $rows = mysqli_num_rows($query);
     <div class="container" style="margin-top: 30px;">
         <?php if(!empty($_SESSION['message'])): ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['message']; ?>
+            <?php echo htmlspecialchars($_SESSION['message']); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
-        <h4>Admin - Manage Product</h4>
+        <h4>Admin - Manage Users</h4>
         <div class="row g-5">
             <div class="col-md-8 col-sm-12">
-                <form action="<?php echo $base_url; ?>/user-form.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="<?php echo $result['id']; ?>">
+                <form action="<?php echo htmlspecialchars($base_url); ?>/update_user.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo isset($row_product['Id']) ? htmlspecialchars($row_product['Id']) : ''; ?>">
                     <div class="row g-3 mb-3">
                         <div class="col-sm-6">
-                            <label class="form-label">Point</label>
-                            <input type="number" min="0" max="5000" step="1" name="point" class="form-control" value="<?php echo isset($result['point']) ? (int)$result['point'] : 0; ?>" required>
+                            <label class="form-label">Points</label>
+                            <input type="number" 
+                                   min="0" 
+                                   max="5000" 
+                                   step="1" 
+                                   name="point" 
+                                   class="form-control" 
+                                   value="<?php echo isset($row_product['points']) ? (int)$row_product['points'] : 0; ?>" 
+                                   required>
                         </div>
                     </div>
-                    <?php if(!empty($result['id'])): ?>
+                    <?php if(isset($row_product['Id'])): ?>
                         <button class="btn btn-primary" type="submit"><i class="fa-regular fa-floppy-disk me-1"></i>Update</button>
                     <?php endif; ?>
 
-                    <a role="button" class="btn btn-secondary" href="<?php echo $base_url; ?>/user.php"><i class="fa-solid fa-rotate-left me-1"></i>Cancel</a>
+                    <a role="button" class="btn btn-secondary" href="<?php echo htmlspecialchars($base_url); ?>/manage-user.php">
+                        <i class="fa-solid fa-rotate-left me-1"></i>Cancel
+                    </a>
                     <hr class="my-4">
                 </form>
             </div>
@@ -83,15 +90,15 @@ $rows = mysqli_num_rows($query);
                                 <td><?php echo $data['email']; ?></td>
                                 <td><?php echo $data['points']; ?></td>
                                 <td>
-                                        <?php if ($data['status'] == 1): ?>
-                                            <span class="badge bg-success">Active</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-danger">Inactive</span>
-                                        <?php endif; ?>
-                                    </td>
+                                    <?php if ($data['status'] == 1): ?>
+                                        <span class="badge bg-success">Active</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger">Inactive</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?php echo $data['address']; ?></td>
                                 <td>
-                                <a role="button" href="<?php echo $base_url; ?>/user.php?id=<?php echo $data['Id']; ?>" class="btn btn-outline-dark"><i class="fa-regular fa-pen-to-square me-1"></i>Edit</a>
+                                    <a role="button" href="<?php echo $base_url; ?>/manage-user.php?id=<?php echo $data['Id']; ?>" class="btn btn-outline-dark"><i class="fa-regular fa-pen-to-square me-1"></i>Edit</a>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
