@@ -1,3 +1,0 @@
-ALTER TABLE `users`
-ADD COLUMN reset_token VARCHAR(64),
-ADD COLUMN reset_expiry DATETIME;

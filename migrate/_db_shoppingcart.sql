@@ -19,11 +19,27 @@
 CREATE DATABASE IF NOT EXISTS `shoppingcart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `shoppingcart`;
 
+-- Dumping structure for table shoppingcart.carousel
+CREATE TABLE IF NOT EXISTS `carousel` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci,
+  `image` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table shoppingcart.carousel: ~2 rows (approximately)
+INSERT INTO `carousel` (`id`, `title`, `description`, `image`, `status`, `created_at`) VALUES
+	(1, 'Welcome to Shopping Cart', 'Discover amazing products at great prices', 'slide-1.jpg', 1, '2025-02-25 11:30:44'),
+	(3, 'ส่วดลดสุดพิเศษ', 'ส่วนลด 80 บาท เพียงกรอก Promocode: NEWYEAR', 'slide-3.jpg', 1, '2025-02-25 11:30:44');
+
 -- Dumping structure for table shoppingcart.categories
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `display_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `display_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -48,11 +64,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `grand_total` decimal(8,2) NOT NULL DEFAULT '0.00',
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dumping data for table shoppingcart.orders: ~1 rows (approximately)
-INSERT INTO `orders` (`id`, `order_date`, `fullname`, `email`, `tel`, `grand_total`, `address`) VALUES
-	(1, '2025-02-18 15:20:43', 'saifon1 saifon1', 'saifon2@gmail.com', '0621697246', 416.00, '123');
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping structure for table shoppingcart.order_details
 CREATE TABLE IF NOT EXISTS `order_details` (
@@ -68,13 +80,6 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   CONSTRAINT `FK_order_details_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table shoppingcart.order_details: ~4 rows (approximately)
-INSERT INTO `order_details` (`order_id`, `product_id`, `product_name`, `price`, `quantity`, `total`) VALUES
-	(1, 5, 'เฟรนฟราย', 99.00, 1, 99.00),
-	(1, 4, 'เครื่องดื่มโค๊ก', 19.00, 2, 38.00),
-	(1, 3, 'แซนวิซ', 30.00, 3, 90.00),
-	(1, 1, 'แฮมเบอร์เก้อ', 189.00, 1, 189.00);
-
 -- Dumping structure for table shoppingcart.permission_users
 CREATE TABLE IF NOT EXISTS `permission_users` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -83,14 +88,11 @@ CREATE TABLE IF NOT EXISTS `permission_users` (
   PRIMARY KEY (`id`),
   KEY `FK_permission_users_users` (`user_id`),
   CONSTRAINT `FK_permission_users_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table shoppingcart.permission_users: ~0 rows (approximately)
+-- Dumping data for table shoppingcart.permission_users: ~5 rows (approximately)
 INSERT INTO `permission_users` (`id`, `user_id`, `role`) VALUES
-	(1, 1, 'admin'),
-	(2, 5, 'customer'),
-	(3, 6, 'customer'),
-	(4, 7, 'customer');
+	(1, 1, 'admin');
 
 -- Dumping structure for table shoppingcart.products
 CREATE TABLE IF NOT EXISTS `products` (
@@ -99,23 +101,41 @@ CREATE TABLE IF NOT EXISTS `products` (
   `price` decimal(8,2) NOT NULL DEFAULT '0.00',
   `profile_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `category` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'other',
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'other',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table shoppingcart.products: ~11 rows (approximately)
 INSERT INTO `products` (`id`, `product_name`, `price`, `profile_image`, `detail`, `category`) VALUES
 	(1, 'แฮมเบอร์เก้อ', 189.00, 'food-1.png', 'อร่อย เต็มคำ รสชาติจัดจ้าน', 'fastfood'),
-	(2, 'พิซซ่าซีฟู๊ด', 199.00, 'food-2.png', 'อิ่มอร่อย ที่สุดของโปรดปราน', 'fastfood'),
 	(3, 'แซนวิซ', 30.00, 'food-4.png', 'ไม่แพงแต่อิ่ม', 'fastfood'),
 	(4, 'เครื่องดื่มโค๊ก', 19.00, 'food-5.png', 'อร่อย ซ่า โดนใจ', 'beverage'),
 	(5, 'เฟรนฟราย', 99.00, 'food-6.png', 'มันทอดกรอบ ติดใจวัยรุ่น', 'fastfood'),
 	(9, 'hotdog', 15.00, 'hotdog.jpg', 'อร่อย เต็มคำ', 'other'),
 	(10, 'ชูชิ', 90.00, 'Image.jpg', 'สดๆ', ' japanese'),
-	(11, 'ต้มยํากุ้ง', 50.00, 'maxresdefault.jpg', 'เผ็น อร่อย', ' thai'),
+	(11, 'ต้มยํากุ้ง', 50.00, 'maxresdefault.jpg', 'เผ็น อร่อย', 'thai'),
 	(12, 'ขนมฟักทอง', 20.00, 'lltf-hero.jpg', 'หวาน มัน อร่อย', ' beverage'),
 	(13, 'ข้าวแกงกระหรี่หมูกรอบ', 80.00, 'OIP.jpg', 'อร่อย', ' japanese'),
-	(14, 'บัวลอย', 20.00, '7aa5acd80f0e3a2de1dbe06d8da3f620.jpg', 'หวาน มัน ลอย', ' other');
+	(14, 'บัวลอย', 20.00, '7aa5acd80f0e3a2de1dbe06d8da3f620.jpg', 'หวาน มัน ลอย', 'dessert'),
+	(15, 'น้ำดื่ม', 15.00, 'namthip1.5l_3.jpg', 'น้ำดื่ม', ' beverage');
+
+-- Dumping structure for table shoppingcart.promocodes
+CREATE TABLE IF NOT EXISTS `promocodes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `promotion_text` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount_value` decimal(10,2) NOT NULL,
+  `status` enum('active','inactive','expired') COLLATE utf8mb4_unicode_ci DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table shoppingcart.promocodes: ~3 rows (approximately)
+INSERT INTO `promocodes` (`id`, `code`, `promotion_text`, `discount_value`, `status`, `created_at`) VALUES
+	(1, 'PRO100', 'ส่วนลด 100 บาท', 100.00, 'active', '2022-02-25 11:30:00'),
+	(2, 'PRO80', 'ส่วนลด 80 บาท', 80.00, 'active', '2022-02-25 11:30:00'),
+	(3, 'PRO20', 'ส่วนลด 20 บาท', 20.00, 'active', '2022-02-25 11:30:00');
 
 -- Dumping structure for table shoppingcart.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -128,17 +148,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` tinyint NOT NULL DEFAULT '1',
-  `reset_token` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reset_token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `reset_expiry` datetime DEFAULT NULL,
+  `points` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table shoppingcart.users: ~0 rows (approximately)
-INSERT INTO `users` (`Id`, `username`, `password`, `name`, `surname`, `tel`, `email`, `address`, `status`, `reset_token`, `reset_expiry`) VALUES
-	(1, 'admin', '$2y$10$FBeDS1bIBRStH5tvDEEaeuypOgtRzxCv.ucGZtGqmgJBcjwR9pEH.', 'admin', 'admin', '0854790731', 'chattarin136@gmail.co', '23/1112 ต.ในเมือง อ.เมือง จ.นครราชสีมา 10310', 1, NULL, NULL),
-	(5, 'saifon', '$2y$10$ur/iPtjcplMwC.TminVHKuBUWY2Xc7lQdqzPy6/NTuIcydB.wdnZ2', 'saifon', 'saifon', '0854790731', 'chattarin136@gmail.co', '123', 1, NULL, NULL),
-	(6, 'saifon2', '$2y$10$XqFkHGduXOXV10Jkcxp.1.rOapf/0R6X4PNWkSVutV2/.prSg1rh6', 'saifon2', 'saifon2', '0621697246', 'saifon2@gmail.com', '123', 1, NULL, NULL),
-	(7, 'saifon1', '$2y$10$D8VVLWf7w5hCJH9gjAYobu5qaU8z3r9SM2hLpk24709JbHdFDOXKy', 'saifon1', 'saifon1', '0621697246', 'saifon2@gmail.com', '123', 1, NULL, NULL);
+-- Dumping data for table shoppingcart.users: ~5 rows (approximately)
+INSERT INTO `users` (`Id`, `username`, `password`, `name`, `surname`, `tel`, `email`, `address`, `status`, `reset_token`, `reset_expiry`, `points`) VALUES
+	(1, 'admin', '$2y$10$FBeDS1bIBRStH5tvDEEaeuypOgtRzxCv.ucGZtGqmgJBcjwR9pEH.', 'admin', 'admin', '0854790731', 'chattarin136@gmail.co', '23/1112 ต.ในเมือง อ.เมือง จ.นครราชสีมา 10310', 1, NULL, NULL, 4);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
