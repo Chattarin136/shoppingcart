@@ -24,3 +24,5 @@ INSERT INTO `promocodes` (`id`, `code`, `promotion_text`, `discount_value`, `sta
 (1, 'PROMO100', 'ส่วนลด 100 บาท', 100.00, 'active', '2022-02-25 18:30:00'),
 (2, 'PROMO200', 'ส่วนลด 200 บาท', 200.00, 'active', '2022-02-25 18:30:00'),
 (3, 'PROMO500', 'ส่วนลด 500 บาท', 500.00, 'active', '2022-02-25 18:30:00'),
+
+ALTER TABLE `users` ADD `points` INT NOT NULL DEFAULT '0'
